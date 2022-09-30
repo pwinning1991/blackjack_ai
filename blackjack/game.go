@@ -16,8 +16,9 @@ const (
 
 func New() Game {
 	return Game{
-		state:     statePlayerTurn,
-		dealerAIi: dealerAI{},
+		state:    statePlayerTurn,
+		dealerAi: dealerAI{},
+		balance:  0,
 	}
 }
 
@@ -28,6 +29,7 @@ type Game struct {
 	player   []deck.Card
 	dealer   []deck.Card
 	dealerAI AI
+	balance  int
 }
 
 func (g *Game) currentHand() *[]deck.Card {
@@ -58,7 +60,7 @@ func deal(gs GameState) {
 
 func (g *Game) Play(ai AI) {
 	g.deck = dec.New(deck.Deck(3), deck.Shuffle())
-	for i := 0; i < 10; i++ {
+	for i := 0; i < 2; i++ {
 		deal(g)
 		var input string
 		for g.state == statePlayerTurn {
@@ -139,12 +141,16 @@ func endHand(g *Game, ai AI) {
 	switch {
 	case pScore > 21:
 		fmt.Println("You Busted")
+		g.balance--
 	case dScore > 21:
 		fmt.Println("Dealer Busted")
+		g.balance++
 	case pScore > dScore:
 		fmt.Println("You Win")
+		g.balance++
 	case pScore < dScore:
 		fmt.Println("You Lose")
+		g.balance--
 	case pScore == dScore:
 		fmt.Println("Draw")
 	}

@@ -12,9 +12,13 @@ type AI interface {
 	Results(hand [][]deck.Card, dealer []deck.Card)
 }
 
-type HumanAI struct{}
+func HumanAI() AI {
+	return humanAI{}
+}
 
-func (ai *HumanAI) Bet() int {
+type humanAI struct{}
+
+func (ai humanAI) Bet() int {
 	return 1
 }
 
@@ -37,7 +41,7 @@ func (ai dealerAI) Results(hand [][]deck.Card, dealer []deck.Card) {
 	// noop
 }
 
-func (ai *HumanAI) Play(hand []deck.Card, dealer deck.Card) {
+func (ai humanAI) Play(hand []deck.Card, dealer deck.Card) int {
 	var input string
 	for {
 		fmt.Println("Player:", player)
@@ -55,9 +59,11 @@ func (ai *HumanAI) Play(hand []deck.Card, dealer deck.Card) {
 
 	}
 
+	return 0
+
 }
 
-func (ai *HumanAI) Results(hand [][]deck.Card, dealer []deck.Card) {
+func (ai humanAI) Results(hand [][]deck.Card, dealer []deck.Card) {
 	fmt.Println("==FINAL HANDS==")
 	fmt.Println("Player:", hand)
 	fmt.Println("Dealer:", dealer)
