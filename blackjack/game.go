@@ -57,8 +57,8 @@ func deal(g *Game) {
 	g.state = statePlayerTurn
 }
 
-func (g *Game) Play(ai AI) {
-	g.deck = deck.New(deck.Deck(3))
+func (g *Game) Play(ai AI) int {
+	g.deck = deck.New(deck.Deck(3), deck.Shuffle)
 	for i := 0; i < 2; i++ {
 		deal(g)
 		for g.state == statePlayerTurn {
@@ -77,6 +77,8 @@ func (g *Game) Play(ai AI) {
 		endHand(g, ai)
 
 	}
+
+	return g.balance
 }
 
 type Move func(*Game)
@@ -152,8 +154,8 @@ func endHand(g *Game, ai AI) {
 	case pScore == dScore:
 		fmt.Println("Draw")
 	}
-	fmt.Println()
 	ai.Results([][]deck.Card{g.player}, g.dealer)
+	fmt.Println()
 	g.player = nil
 	g.dealer = nil
 }
