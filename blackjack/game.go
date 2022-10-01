@@ -2,7 +2,6 @@ package blackjack
 
 import (
 	"errors"
-	"fmt"
 
 	"github.com/pwinning1991/deck"
 )
@@ -285,7 +284,7 @@ func endRound(g *Game, ai AI) {
 		}
 		g.balance += winnings
 		ai.Results(allHands, g.dealer)
-		fmt.Println()
+		//fmt.Println()
 		g.player = nil
 		g.dealer = nil
 	}
